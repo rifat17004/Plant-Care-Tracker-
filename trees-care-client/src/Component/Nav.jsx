@@ -7,27 +7,49 @@ const Nav = () => {
       <li>
         <NavLink
           to="/"
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
+          className={({ isActive }) =>
+            isActive ? "text-success font-bold" : "hover:text-success"
           }
         >
           Home
         </NavLink>
       </li>
       <li>
-        <NavLink to="/all-plants"> All Plants</NavLink>
+        <NavLink
+          to="/all-plants"
+          className={({ isActive }) =>
+            isActive ? "text-success font-bold" : ""
+          }
+        >
+          All Plants
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/add-plants">Add Plant</NavLink>
+        <NavLink
+          to="/add-plants"
+          className={({ isActive }) =>
+            isActive ? "text-success font-bold" : ""
+          }
+        >
+          Add Plant
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/my-plants">My Plants</NavLink>
+        <NavLink
+          to="/my-plants"
+          className={({ isActive }) =>
+            isActive ? "text-success font-bold" : ""
+          }
+        >
+          My Plants
+        </NavLink>
       </li>
     </>
   );
+
   return (
-    <div>
-      <div className="navbar bg-base-100 shadow-sm px-4 md:px-8">
+    <div className="sticky top-0 z-50 w-full bg-base-100/80 backdrop-blur-md shadow-sm">
+      <div className="navbar px-4 md:px-8 max-w-7xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -42,7 +64,7 @@ const Nav = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="4 6h16M4 12h8m-8 6h16"
+                  d="M4 6h16M4 12h8m-8 6h16"
                 />
               </svg>
             </label>
@@ -53,19 +75,26 @@ const Nav = () => {
               {link}
             </ul>
           </div>
-          <a className="text-xl font-bold text-success flex gap-2 items-center">
+          <Link
+            to="/"
+            className="text-xl font-bold text-success flex gap-2 items-center"
+          >
             <span className="text-2xl">🌿</span> LeafLog
-          </a>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 font-medium">{link}</ul>
+          <ul className="menu menu-horizontal px-1 font-medium gap-2">
+            {link}
+          </ul>
         </div>
         <div className="navbar-end gap-2">
           <Link to="/auth/login">
-            <button className="btn btn-ghost btn-sm">Login</button>
+            <button className="btn btn-ghost btn-sm border-none hover:bg-success/10">
+              Login
+            </button>
           </Link>
           <Link to="/auth/register">
-            <button className="btn btn-success btn-sm text-white">
+            <button className="btn btn-success btn-sm text-white px-6">
               Register
             </button>
           </Link>

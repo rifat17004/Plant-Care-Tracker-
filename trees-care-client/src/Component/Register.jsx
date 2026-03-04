@@ -43,11 +43,11 @@ const Register = () => {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Last Name</span>
+                <span className="label-text">Photo URL</span>
               </label>
               <input
                 type="text"
-                placeholder="Doe"
+                placeholder="https://i.ibb.co/CpfMGrBH"
                 className="input input-bordered"
               />
             </div>

@@ -1,39 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import Banner from "./Banner";
+import { useLoaderData } from "react-router";
+import NewPlants from "./NewPlants";
+import BeginnerFriendly from "./BeginnerFriendly";
+import CareMistakes from "./CareMistakes";
 
 const Home = () => {
+  const data = useLoaderData();
+  const [plants, setPlants] = useState(data);
+
   return (
     <div className="min-h-screen bg-base-100">
-      {/* --- HERO SECTION --- */}
-      <section
-        className="hero min-h-[70vh] bg-base-200"
-        style={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&q=80&w=2000)",
-          backgroundBlendMode: "overlay",
-          backgroundColor: "rgba(0,0,0,0.4)",
-        }}
-      >
-        <div className="hero-content text-center text-neutral-content">
-          <div className="max-w-md">
-            <h1 className="mb-5 text-5xl font-bold text-white">
-              Grow Better Together
-            </h1>
-            <p className="mb-5 text-gray-100">
-              Log, track, and nurture your indoor jungle. Never miss a watering
-              day again with our smart plant management system.
-            </p>
-            <div className="flex justify-center gap-4">
-              <button className="btn btn-success text-white border-none">
-                Get Started
-              </button>
-              <button className="btn btn-outline border-white text-white hover:bg-white hover:text-black">
-                View All Plants
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* --- QUICK STATS / APP INFO --- */}
       <section className="py-16 px-4 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -70,41 +47,18 @@ const Home = () => {
       {/* --- FEATURED SECTION (Mirroring the Shopify Store look) --- */}
       <section className="bg-base-200 py-16 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-2">Your Personal Nursery</h2>
+          <h2 className="text-3xl font-bold mb-2">New Plants</h2>
           <p className="mb-10 opacity-60">Manage your collection with ease</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Example Plant Card */}
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="card bg-base-100 shadow-md group">
-                <figure className="relative overflow-hidden">
-                  <img
-                    src={`https://images.unsplash.com/photo-1545239351-ef35f43d514b?auto=format&fit=crop&q=80&w=400`}
-                    alt="Plant"
-                    className="group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute top-2 right-2 badge badge-success text-white">
-                    Healthy
-                  </div>
-                </figure>
-                <div className="card-body p-4 text-left">
-                  <h3 className="font-bold">Monstera Deliciosa</h3>
-                  <p className="text-xs opacity-50 uppercase tracking-widest font-semibold">
-                    Tropical
-                  </p>
-                  <div className="divider my-1"></div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs italic">Next watering: Today</span>
-                    <button className="btn btn-xs btn-outline btn-success">
-                      Details
-                    </button>
-                  </div>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {plants.map((plant) => (
+              <NewPlants key={plant.id} plant={plant}></NewPlants>
             ))}
           </div>
         </div>
       </section>
+      <BeginnerFriendly />
+      <CareMistakes />
     </div>
   );
 };
