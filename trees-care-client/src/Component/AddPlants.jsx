@@ -1,6 +1,21 @@
 import React from "react";
 
 const AddPlants = () => {
+  const handleAddPlant = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const plantObject = Object.fromEntries(formData.entries());
+    // console.log(plantObject);
+
+    fetch(`http://localhost:3000/all-plants`, {
+      method: "POST",
+      body: JSON.stringify(plantObject),
+      headers: { "content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
   return (
     <div className="min-h-screen bg-base-200 py-12 px-4">
       <div className="max-w-3xl mx-auto">
@@ -14,13 +29,14 @@ const AddPlants = () => {
         </div>
 
         <div className="card bg-base-100 shadow-xl border border-base-300">
-          <form className="card-body p-8 md:p-12">
+          <form onSubmit={handleAddPlant} className="card-body p-8 md:p-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="form-control w-full">
                 <label className="label pb-2">
                   <span className="label-text font-bold">Plant Name</span>
                 </label>
                 <input
+                  name="plantName"
                   type="text"
                   placeholder="e.g. Monstera Deliciosa"
                   className="input input-bordered focus:outline-success w-full"
@@ -32,16 +48,20 @@ const AddPlants = () => {
                 <label className="label pb-2">
                   <span className="label-text font-bold">Category</span>
                 </label>
-                <select className="select select-bordered focus:outline-success w-full">
-                  <option disabled selected>
+                <select
+                  name="category"
+                  className="select select-bordered focus:outline-success w-full"
+                  required
+                >
+                  <option value="" disabled selected>
                     Select Category
                   </option>
-                  <option>Succulent</option>
-                  <option>Fern</option>
-                  <option>Flowering</option>
-                  <option>Vines</option>
-                  <option>Trees</option>
-                  <option>Other</option>
+                  <option value="Succulent">Succulent</option>
+                  <option value="Fern">Fern</option>
+                  <option value="Flowering">Flowering</option>
+                  <option value="Vines">Vines</option>
+                  <option value="Trees">Trees</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
@@ -51,9 +71,11 @@ const AddPlants = () => {
                 <span className="label-text font-bold">Image URL</span>
               </label>
               <input
+                name="image"
                 type="url"
                 placeholder="https://images.unsplash.com/..."
                 className="input input-bordered focus:outline-success w-full"
+                required
               />
             </div>
 
@@ -62,6 +84,7 @@ const AddPlants = () => {
                 <span className="label-text font-bold">Description</span>
               </label>
               <textarea
+                name="description"
                 className="textarea textarea-bordered focus:outline-success h-24"
                 placeholder="Describe your plant's personality..."
               ></textarea>
@@ -76,13 +99,17 @@ const AddPlants = () => {
                 <label className="label pb-2">
                   <span className="label-text font-bold">Care Level</span>
                 </label>
-                <select className="select select-bordered focus:outline-success w-full">
-                  <option disabled selected>
-                    How hard is it to keep alive?
+                <select
+                  name="careLevel"
+                  className="select select-bordered focus:outline-success w-full"
+                  required
+                >
+                  <option value="" disabled selected>
+                    How hard is it?
                   </option>
-                  <option>Easy</option>
-                  <option>Moderate</option>
-                  <option>Difficult</option>
+                  <option value="Easy">Easy</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="Difficult">Difficult</option>
                 </select>
               </div>
 
@@ -93,6 +120,7 @@ const AddPlants = () => {
                   </span>
                 </label>
                 <input
+                  name="wateringFrequency"
                   type="text"
                   placeholder="e.g. Every 7 days"
                   className="input input-bordered focus:outline-success w-full"
@@ -106,6 +134,7 @@ const AddPlants = () => {
                   </span>
                 </label>
                 <input
+                  name="lastWateredDate"
                   type="date"
                   className="input input-bordered focus:outline-success w-full"
                 />
@@ -118,6 +147,7 @@ const AddPlants = () => {
                   </span>
                 </label>
                 <input
+                  name="nextWateringDate"
                   type="date"
                   className="input input-bordered focus:outline-success w-full border-error/30"
                 />
@@ -129,8 +159,9 @@ const AddPlants = () => {
                 <span className="label-text font-bold">Health Status</span>
               </label>
               <input
+                name="healthStatus"
                 type="text"
-                placeholder="e.g. Healthy, Thriving, or Needs Help"
+                placeholder="e.g. Healthy, Thriving..."
                 className="input input-bordered focus:outline-success w-full"
               />
             </div>
@@ -147,10 +178,11 @@ const AddPlants = () => {
                   </span>
                 </label>
                 <input
+                  name="userName"
                   type="text"
-                  placeholder="Your Name"
+                  // defaultValue={user?.name} // Set default from state
                   className="input input-bordered bg-base-200"
-                  readOnly
+                  // readOnly
                 />
               </div>
               <div className="form-control w-full">
@@ -160,10 +192,11 @@ const AddPlants = () => {
                   </span>
                 </label>
                 <input
+                  name="userEmail"
                   type="email"
-                  placeholder="your@email.com"
+                  // defaultValue={user?.email} // Set default from state
                   className="input input-bordered bg-base-200"
-                  readOnly
+                  // readOnly
                 />
               </div>
             </div>

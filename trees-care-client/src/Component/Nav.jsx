@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router";
+import ThemeToggle from "./ThemeToggle";
 
 const Nav = () => {
   const link = (
@@ -98,6 +99,7 @@ const Nav = () => {
               Register
             </button>
           </Link>
+          <ThemeToggle />
         </div>
       </div>
     </div>

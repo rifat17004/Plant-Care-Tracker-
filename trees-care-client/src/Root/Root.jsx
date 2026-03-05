@@ -15,11 +15,28 @@ export const router = createBrowserRouter([
     path: "/",
     Component: MainLayout,
     children: [
-      { index: true, Component: Home, loader: () => fetch("/plant.json") },
-      { path: "all-plants", Component: AllPlants },
+      {
+        index: true,
+        Component: Home,
+        loader: () => fetch("http://localhost:3000/all-plants"),
+      },
+      {
+        path: "all-plants",
+        Component: AllPlants,
+        loader: () => fetch("http://localhost:3000/all-plants"),
+      },
       { path: "add-plants", Component: AddPlants },
-      { path: "my-plants", Component: MyPlants },
-      { path: "plant-details", Component: PlantDetails },
+      {
+        path: "my-plants",
+        Component: MyPlants,
+        loader: () => fetch(`http://localhost:3000/my-plants/rifat@.com`),
+      },
+      {
+        path: "plant-details/:id",
+        Component: PlantDetails,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/all-plants/${params.id}`),
+      },
       {
         path: "auth",
         Component: AuthLayout,

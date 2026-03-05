@@ -2,7 +2,6 @@ import React from "react";
 import { NavLink } from "react-router";
 
 const NewPlants = ({ plant }) => {
-  const { image } = plant;
   return (
     <div className="card bg-base-100 w-full max-w-sm shadow-md hover:shadow-xl transition-shadow duration-300 border border-base-200">
       <figure className="relative h-64 w-full overflow-hidden">
@@ -49,14 +48,14 @@ const NewPlants = ({ plant }) => {
           </div>
           <progress
             className="progress progress-info w-full"
-            value="70"
+            value="20"
             max="100"
           ></progress>
         </div>
 
         <div className="card-actions justify-end mt-6">
           <NavLink
-            to="/plant-details"
+            to={`/plant-details/${plant._id}`}
             className="btn btn-success btn-sm text-white"
           >
             View Details
