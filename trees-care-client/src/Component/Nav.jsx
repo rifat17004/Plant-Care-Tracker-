@@ -1,8 +1,21 @@
-import React from "react";
+import React, { use, useState } from "react";
 import { Link, NavLink } from "react-router";
 import ThemeToggle from "./ThemeToggle";
+import { AuthContext } from "../AuthContext/AuthContext";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const Nav = () => {
+  const { user, logout } = use(AuthContext);
+  const [error, setError] = useState("");
+  const handleSignOut = () => {
+    logout()
+      .then(() => {
+        alert("user Log out");
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
   const link = (
     <>
       <li>
@@ -89,16 +102,29 @@ const Nav = () => {
           </ul>
         </div>
         <div className="navbar-end gap-2">
-          <Link to="/auth/login">
-            <button className="btn btn-ghost btn-sm border-none hover:bg-success/10">
-              Login
-            </button>
-          </Link>
-          <Link to="/auth/register">
-            <button className="btn btn-success btn-sm text-white px-6">
-              Register
-            </button>
-          </Link>
+          {user ? (
+            <>
+              <button
+                onClick={handleSignOut}
+                className="btn btn-success btn-sm text-white px-6"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/auth/login">
+                <button className="btn btn-ghost btn-sm border-none hover:bg-success/10">
+                  Login
+                </button>
+              </Link>
+              <Link to="/auth/register">
+                <button className="btn btn-success btn-sm text-white px-6">
+                  Register
+                </button>
+              </Link>
+            </>
+          )}
           <ThemeToggle />
         </div>
       </div>
