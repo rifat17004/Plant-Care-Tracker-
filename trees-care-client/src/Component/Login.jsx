@@ -1,10 +1,12 @@
 import React, { use, useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
 
 const Login = () => {
   const { signInUSer, googleSignIn } = use(AuthContext);
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
   const [error, setError] = useState("");
   const handleLoginSubmit = (e) => {
     e.preventDefault();
@@ -19,6 +21,8 @@ const Login = () => {
         const errorMessage = error.message;
         setError(errorMessage);
       });
+    e.target.reset();
+    navigate(location.state ? location.state : "/");
   };
   const handleGoogoleSignin = () => {
     googleSignIn()
@@ -28,6 +32,9 @@ const Login = () => {
       .catch((error) => {
         setError(error);
       });
+    if (!error) {
+      navigate(location.state ? location.state : "/");
+    }
   };
   return (
     <div
@@ -61,9 +68,6 @@ const Login = () => {
             <div className="form-control w-full mt-4">
               <label className="label">
                 <span className="label-text font-semibold">Password</span>
-                <a href="#" className="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
               </label>
               <input
                 type="password"
@@ -72,7 +76,12 @@ const Login = () => {
                 className="input input-bordered focus:input-success w-full"
               />
             </div>
-            <div className="form-control mt-8">
+            <div className="mt-2">
+              <a href="#" className="label-text-alt link  link-hover">
+                Forgot password?
+              </a>
+            </div>
+            <div className="form-control mt-4">
               <button type="submit" className="btn btn-success  text-white">
                 Login to LeafLog
               </button>

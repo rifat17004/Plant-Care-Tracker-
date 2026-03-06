@@ -8,7 +8,6 @@ import CareMistakes from "./CareMistakes";
 const Home = () => {
   const data = useLoaderData();
   const [plants, setPlants] = useState(data);
-  console.log(plants);
 
   return (
     <div className="min-h-screen bg-base-100">

@@ -1,39 +1,48 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../AuthContext/AuthContext";
+import { useLoaderData, useParams } from "react-router";
 
-const AddPlants = () => {
+const UpdatePlant = () => {
   const { user, loading } = useContext(AuthContext);
+  const { id } = useParams(); // Gets the ID from the URL
+  const existingPlant = useLoaderData(); // Assumes you added a loader to your route
 
   if (loading)
     return <span className="loading loading-spinner loading-xl"></span>;
-  const handleAddPlant = (event) => {
+
+  const handleUpdatePlant = (event) => {
     event.preventDefault();
     const form = event.target;
     const formData = new FormData(form);
     const plantObject = Object.fromEntries(formData.entries());
 
-    fetch(`http://localhost:3000/all-plants`, {
-      method: "POST",
+    fetch(`http://localhost:3000/update/${id}`, {
+      method: "PUT",
       body: JSON.stringify(plantObject),
       headers: { "content-type": "application/json" },
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          alert("Plant updated successfully! 🌿");
+        }
+      });
   };
+
   return (
     <div className="min-h-screen bg-base-200 py-12 px-4">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-black text-neutral mb-2">
-            Add New Plant 🌿
+            Update {existingPlant?.plantName || "Plant"} ✏️
           </h1>
           <p className="text-gray-500">
-            Expand your digital forest by adding a new specimen.
+            Refine the details of your botanical companion.
           </p>
         </div>
 
         <div className="card bg-base-100 shadow-xl border border-base-300">
-          <form onSubmit={handleAddPlant} className="card-body p-8 md:p-12">
+          <form onSubmit={handleUpdatePlant} className="card-body p-8 md:p-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="form-control w-full">
                 <label className="label pb-2">
@@ -42,7 +51,7 @@ const AddPlants = () => {
                 <input
                   name="plantName"
                   type="text"
-                  placeholder="e.g. Monstera Deliciosa"
+                  defaultValue={existingPlant?.plantName}
                   className="input input-bordered focus:outline-success w-full"
                   required
                 />
@@ -54,12 +63,10 @@ const AddPlants = () => {
                 </label>
                 <select
                   name="category"
+                  defaultValue={existingPlant?.category}
                   className="select select-bordered focus:outline-success w-full"
                   required
                 >
-                  <option value="" disabled selected>
-                    Select Category
-                  </option>
                   <option value="Succulent">Succulent</option>
                   <option value="Fern">Fern</option>
                   <option value="Flowering">Flowering</option>
@@ -77,7 +84,7 @@ const AddPlants = () => {
               <input
                 name="image"
                 type="url"
-                placeholder="https://images.unsplash.com/..."
+                defaultValue={existingPlant?.image}
                 className="input input-bordered focus:outline-success w-full"
                 required
               />
@@ -89,8 +96,8 @@ const AddPlants = () => {
               </label>
               <textarea
                 name="description"
+                defaultValue={existingPlant?.description}
                 className="textarea textarea-bordered focus:outline-success h-24"
-                placeholder="Describe your plant's personality..."
               ></textarea>
             </div>
 
@@ -105,12 +112,10 @@ const AddPlants = () => {
                 </label>
                 <select
                   name="careLevel"
+                  defaultValue={existingPlant?.careLevel}
                   className="select select-bordered focus:outline-success w-full"
                   required
                 >
-                  <option value="" disabled selected>
-                    How hard is it?
-                  </option>
                   <option value="Easy">Easy</option>
                   <option value="Moderate">Moderate</option>
                   <option value="Difficult">Difficult</option>
@@ -126,7 +131,7 @@ const AddPlants = () => {
                 <input
                   name="wateringFrequency"
                   type="text"
-                  placeholder="e.g. Every 7 days"
+                  defaultValue={existingPlant?.wateringFrequency}
                   className="input input-bordered focus:outline-success w-full"
                 />
               </div>
@@ -140,6 +145,7 @@ const AddPlants = () => {
                 <input
                   name="lastWateredDate"
                   type="date"
+                  defaultValue={existingPlant?.lastWateredDate}
                   className="input input-bordered focus:outline-success w-full"
                 />
               </div>
@@ -153,6 +159,7 @@ const AddPlants = () => {
                 <input
                   name="nextWateringDate"
                   type="date"
+                  defaultValue={existingPlant?.nextWateringDate}
                   className="input input-bordered focus:outline-success w-full border-error/30"
                 />
               </div>
@@ -165,11 +172,10 @@ const AddPlants = () => {
               <input
                 name="healthStatus"
                 type="text"
-                placeholder="e.g. Healthy, Thriving..."
+                defaultValue={existingPlant?.healthStatus}
                 className="input input-bordered focus:outline-success w-full"
               />
             </div>
-
             <div className="divider my-8 opacity-50 uppercase text-xs tracking-[0.3em] font-bold text-success">
               User Info
             </div>
@@ -211,7 +217,7 @@ const AddPlants = () => {
                 type="submit"
                 className="btn btn-success text-white btn-lg shadow-lg hover:shadow-success/20 border-none uppercase tracking-widest font-black"
               >
-                Add Plant to Collection
+                Save Changes
               </button>
             </div>
           </form>
@@ -221,4 +227,4 @@ const AddPlants = () => {
   );
 };
 
-export default AddPlants;
+export default UpdatePlant;

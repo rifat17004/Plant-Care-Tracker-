@@ -43,11 +43,44 @@ async function run() {
       result = await plantCollection.find(query).toArray();
       res.send(result);
     });
+
+    //                         ===== Post  Api ======                            //
+
+    app.put("/update/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedPlant = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          plantName: updatedPlant.plantName,
+          category: updatedPlant.category,
+          description: updatedPlant.description,
+          image: updatedPlant.image,
+          careLevel: updatedPlant.careLevel,
+          wateringFrequency: updatedPlant.wateringFrequency,
+          lastWateredDate: updatedPlant.lastWateredDate,
+          nextWateringDate: updatedPlant.nextWateringDate,
+          healthStatus: updatedPlant.healthStatus,
+        },
+      };
+
+      const result = await plantCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
     //                         ===== Post  Api ======                            //
 
     app.post("/all-plants", async (req, res) => {
       const addPlantRequest = req.body;
       const result = await plantCollection.insertOne(addPlantRequest);
+      res.send(result);
+    });
+
+    //                         ===== delete   Api ======                            //
+
+    app.delete("/all-plants/:id", async (req, res) => {
+      const deletedId = req.params.id;
+      const query = { _id: new ObjectId(deletedId) };
+      result = await plantCollection.deleteOne(query);
       res.send(result);
     });
 
@@ -62,5 +95,5 @@ async function run() {
 }
 run().catch(console.dir);
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });

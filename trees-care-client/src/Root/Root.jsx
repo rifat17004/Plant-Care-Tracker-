@@ -9,6 +9,9 @@ import Login from "../Component/Login";
 import Register from "../Component/Register";
 import PlantDetails from "../Component/PlantDetails";
 import NotFound from "../Component/NotFound";
+import UpdatePlant from "../Component/UpdatePlant";
+import { Suspense } from "react";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -25,15 +28,57 @@ export const router = createBrowserRouter([
         Component: AllPlants,
         loader: () => fetch("http://localhost:3000/all-plants"),
       },
-      { path: "add-plants", Component: AddPlants },
+      {
+        path: "add-plants",
+
+        element: (
+          <Suspense
+            fallback={
+              <span className="loading loading-spinner loading-2xl"></span>
+            }
+          >
+            <PrivateRoutes>
+              <AddPlants />
+            </PrivateRoutes>
+          </Suspense>
+        ),
+      },
+      {
+        path: "update-plants/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/all-plants/${params.id}`),
+        Component: UpdatePlant,
+      },
       {
         path: "my-plants",
-        Component: MyPlants,
+
+        element: (
+          <Suspense
+            fallback={
+              <span className="loading loading-spinner loading-2xl"></span>
+            }
+          >
+            <PrivateRoutes>
+              <MyPlants></MyPlants>
+            </PrivateRoutes>
+          </Suspense>
+        ),
         loader: () => fetch(`http://localhost:3000/my-plants/rifat@.com`),
       },
       {
         path: "plant-details/:id",
-        Component: PlantDetails,
+
+        element: (
+          <Suspense
+            fallback={
+              <span className="loading loading-spinner loading-2xl"></span>
+            }
+          >
+            <PrivateRoutes>
+              <PlantDetails />
+            </PrivateRoutes>
+          </Suspense>
+        ),
         loader: ({ params }) =>
           fetch(`http://localhost:3000/all-plants/${params.id}`),
       },

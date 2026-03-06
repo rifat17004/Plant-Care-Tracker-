@@ -1,6 +1,8 @@
 import React, { use, useState } from "react";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
+import { updateProfile } from "firebase/auth";
+import { auth } from "../../Firebase/Firebase.init";
 
 const Register = () => {
   const { createUser } = use(AuthContext);
@@ -10,16 +12,22 @@ const Register = () => {
     e.preventDefault();
     const fromData = new FormData(e.target);
     const fromObject = Object.fromEntries(fromData.entries());
+    const userProfile = {
+      displayName: fromObject.name,
+      photoURL: fromObject.Url,
+    };
+
     createUser(fromObject.email, fromObject.pass)
       .then((userCredential) => {
-        // Signed up
         const user = userCredential.user;
+        updateProfile(auth.currentUser, userProfile);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         setError(errorMessage);
       });
+    Navigate("/", { replace: true });
   };
   const [open, setOpen] = useState(true);
   return (

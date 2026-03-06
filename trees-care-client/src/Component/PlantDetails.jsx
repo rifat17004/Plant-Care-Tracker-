@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams, Link, useLoaderData } from "react-router";
+import { AuthContext } from "../AuthContext/AuthContext";
 
 const PlantDetails = ({ plant }) => {
+  const { user } = useContext(AuthContext);
   const data = useLoaderData();
   const {
     _id,
@@ -102,13 +104,15 @@ const PlantDetails = ({ plant }) => {
               <button className="btn btn-success flex-1 text-white gap-2">
                 💧 Mark as Watered
               </button>
-              <button className="btn btn-outline btn-neutral flex-1">
-                ✏️ Edit Details
-              </button>
+              {/* <Link to={`/update-plants/${_id}`}>
+                <button className="btn btn-outline btn-neutral flex-1">
+                  ✏️ Edit Details
+                </button>
+              </Link> */}
             </div>
 
             <p className="text-center mt-6 text-xs opacity-40">
-              Plant ID: {_id} • Registered to "User email"
+              Plant ID: {_id} • Registered to {user.email}
             </p>
           </div>
         </div>
