@@ -12,6 +12,7 @@ import NotFound from "../Component/NotFound";
 import UpdatePlant from "../Component/UpdatePlant";
 import { Suspense } from "react";
 import PrivateRoutes from "./PrivateRoutes";
+import Loading from "../Component/Loading";
 
 export const router = createBrowserRouter([
   {
@@ -32,11 +33,7 @@ export const router = createBrowserRouter([
         path: "add-plants",
 
         element: (
-          <Suspense
-            fallback={
-              <span className="loading loading-spinner loading-2xl"></span>
-            }
-          >
+          <Suspense fallback={<Loading />}>
             <PrivateRoutes>
               <AddPlants />
             </PrivateRoutes>
@@ -47,17 +44,19 @@ export const router = createBrowserRouter([
         path: "update-plants/:id",
         loader: ({ params }) =>
           fetch(`http://localhost:3000/all-plants/${params.id}`),
-        Component: UpdatePlant,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <PrivateRoutes>
+              <UpdatePlant />
+            </PrivateRoutes>
+          </Suspense>
+        ),
       },
       {
         path: "my-plants",
 
         element: (
-          <Suspense
-            fallback={
-              <span className="loading loading-spinner loading-2xl"></span>
-            }
-          >
+          <Suspense fallback={<Loading />}>
             <PrivateRoutes>
               <MyPlants></MyPlants>
             </PrivateRoutes>
@@ -69,11 +68,7 @@ export const router = createBrowserRouter([
         path: "plant-details/:id",
 
         element: (
-          <Suspense
-            fallback={
-              <span className="loading loading-spinner loading-2xl"></span>
-            }
-          >
+          <Suspense fallback={<Loading />}>
             <PrivateRoutes>
               <PlantDetails />
             </PrivateRoutes>

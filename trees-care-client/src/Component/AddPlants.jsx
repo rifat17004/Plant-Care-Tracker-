@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../AuthContext/AuthContext";
+import Loading from "./Loading";
+import Swal from "sweetalert2";
 
 const AddPlants = () => {
   const { user, loading } = useContext(AuthContext);
 
-  if (loading)
-    return <span className="loading loading-spinner loading-xl"></span>;
+  if (loading) return <Loading />;
   const handleAddPlant = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -18,7 +19,16 @@ const AddPlants = () => {
       headers: { "content-type": "application/json" },
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.acknowledged)
+          Swal.fire({
+            title: "Added 🌿",
+            text: "Successfully Added into your garden.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+      });
   };
   return (
     <div className="min-h-screen bg-base-200 py-12 px-4">

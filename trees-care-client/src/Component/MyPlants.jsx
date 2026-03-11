@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
 import Swal from "sweetalert2";
+import Loading from "./Loading";
 
 const MyPlants = () => {
   const { user, loading } = useContext(AuthContext);
 
-  if (loading)
-    return <span className="loading loading-spinner loading-xl"></span>;
+  if (loading) return <Loading />;
 
   const [myData, setMyData] = useState([]);
 

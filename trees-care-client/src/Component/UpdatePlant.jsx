@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../AuthContext/AuthContext";
 import { useLoaderData, useParams } from "react-router";
+import Loading from "./Loading";
+import Swal from "sweetalert2";
 
 const UpdatePlant = () => {
   const { user, loading } = useContext(AuthContext);
   const { id } = useParams(); // Gets the ID from the URL
   const existingPlant = useLoaderData(); // Assumes you added a loader to your route
 
-  if (loading)
-    return <span className="loading loading-spinner loading-xl"></span>;
+  if (loading) return <Loading />;
 
   const handleUpdatePlant = (event) => {
     event.preventDefault();
@@ -24,7 +25,21 @@ const UpdatePlant = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount > 0) {
-          alert("Plant updated successfully! 🌿");
+          Swal.fire({
+            title: "Updates! 🌿",
+            text: "Successfully Update into your garden.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        } else {
+          Swal.fire({
+            title: "can't Updates ! 🌿",
+            text: "need some modification.",
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          });
         }
       });
   };

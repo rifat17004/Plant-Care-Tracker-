@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useParams, Link, useLoaderData } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
+import { format, parseISO, isPast, differenceInDays } from "date-fns";
 
 const PlantDetails = ({ plant }) => {
   const { user } = useContext(AuthContext);
@@ -18,6 +19,14 @@ const PlantDetails = ({ plant }) => {
     wateringFrequency,
   } = data;
 
+  // 1. Process the dates
+  const nextDate = parseISO(nextWateringDate);
+  console.log("nextWateringDate: ", nextWateringDate, "nextDate: ", nextDate);
+  const isOverdue =
+    isPast(nextDate) && differenceInDays(new Date(), nextDate) > 0;
+
+  const formattedLast = format(parseISO(lastWateredDate), "PPP");
+  const formattedNext = format(nextDate, "PPP");
   return (
     <div className="min-h-screen bg-base-200 py-8 px-4">
       <div className="max-w-6xl mx-auto">
@@ -86,13 +95,16 @@ const PlantDetails = ({ plant }) => {
                     <tr className="border-none">
                       <td className="font-bold py-2">Last Watered</td>
                       <td className="text-right py-2 text-gray-500">
-                        {lastWateredDate}
+                        {formattedLast}
                       </td>
                     </tr>
                     <tr className="border-none">
                       <td className="font-bold py-2">Next Watering</td>
-                      <td className="text-right py-2 text-error font-bold italic underline">
-                        {nextWateringDate}
+
+                      <td
+                        className={`text-right py-2 font-bold ${isOverdue ? "text-error animate-pulse" : "text-neutral"}`}
+                      >
+                        {formattedNext} {isOverdue && "(Overdue!)"}
                       </td>
                     </tr>
                   </tbody>
@@ -104,11 +116,6 @@ const PlantDetails = ({ plant }) => {
               <button className="btn btn-success flex-1 text-white gap-2">
                 💧 Mark as Watered
               </button>
-              {/* <Link to={`/update-plants/${_id}`}>
-                <button className="btn btn-outline btn-neutral flex-1">
-                  ✏️ Edit Details
-                </button>
-              </Link> */}
             </div>
 
             <p className="text-center mt-6 text-xs opacity-40">

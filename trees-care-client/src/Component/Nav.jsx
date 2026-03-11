@@ -125,6 +125,26 @@ const Nav = () => {
               </Link>
             </>
           )}
+          <div
+            className="tooltip tooltip-bottom"
+            data-tip={user?.displayName || "Guest"}
+          >
+            <div className="avatar cursor-pointer">
+              <div className="w-10 md:w-12 rounded-full ring-2 ring-[#296903]  ">
+                {user?.photoURL ? (
+                  <img
+                    className="w-full h-full object-cover"
+                    src={user?.photoURL}
+                    alt="Profile"
+                  />
+                ) : (
+                  <div className="bg-gray-200 w-full h-full flex items-center justify-center">
+                    <FaRegUserCircle className="text-2xl text-gray-500" />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
           <ThemeToggle />
         </div>
       </div>

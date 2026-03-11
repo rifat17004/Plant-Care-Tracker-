@@ -26,6 +26,7 @@ async function run() {
 
     app.get("/all-plants", async (req, res) => {
       const result = await plantCollection.find().toArray();
+      console.log(result);
       res.send(result);
     });
     //                          ===== get single Api ======                         //
