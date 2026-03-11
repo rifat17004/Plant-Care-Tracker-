@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 const username = process.env.DB_USER;
 const password = encodeURIComponent(process.env.DB_PASS);
 
-const uri = `mongodb+srv://${username}:${password}@cluster0.m6oxwzg.mongodb.net/?appName=Cluster0`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.m6oxwzg.mongodb.net/?appName=Cluster0`;
 
 const client = new MongoClient(uri, {
   serverApi: {
