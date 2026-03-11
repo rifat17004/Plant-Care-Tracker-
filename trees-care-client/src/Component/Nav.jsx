@@ -3,19 +3,18 @@ import { Link, NavLink } from "react-router";
 import ThemeToggle from "./ThemeToggle";
 import { AuthContext } from "../AuthContext/AuthContext";
 import { FaRegUserCircle } from "react-icons/fa";
+import { Tooltip } from "react-tooltip";
 
 const Nav = () => {
   const { user, logout } = use(AuthContext);
   const [error, setError] = useState("");
+
   const handleSignOut = () => {
     logout()
-      .then(() => {
-        alert("user Log out");
-      })
-      .catch((error) => {
-        setError(error);
-      });
+      .then(() => alert("User Logged out"))
+      .catch((err) => setError(err.message));
   };
+
   const link = (
     <>
       <li>
@@ -96,27 +95,25 @@ const Nav = () => {
             <span className="text-2xl">🌿</span> LeafLog
           </Link>
         </div>
+
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 font-medium gap-2">
             {link}
           </ul>
         </div>
+
         <div className="navbar-end gap-2">
           {user ? (
-            <>
-              <button
-                onClick={handleSignOut}
-                className="btn btn-success btn-sm text-white px-6"
-              >
-                Logout
-              </button>
-            </>
+            <button
+              onClick={handleSignOut}
+              className="btn btn-success btn-sm text-white px-6"
+            >
+              Logout
+            </button>
           ) : (
             <>
               <Link to="/auth/login">
-                <button className="btn btn-ghost btn-sm border-none hover:bg-success/10">
-                  Login
-                </button>
+                <button className="btn btn-ghost btn-sm">Login</button>
               </Link>
               <Link to="/auth/register">
                 <button className="btn btn-success btn-sm text-white px-6">
@@ -125,26 +122,29 @@ const Nav = () => {
               </Link>
             </>
           )}
+
           <div
-            className="tooltip tooltip-bottom"
-            data-tip={user?.displayName || "Guest"}
+            className="avatar cursor-pointer"
+            data-tooltip-id="user-profile-tooltip"
+            data-tooltip-content={user?.displayName || "Guest"}
           >
-            <div className="avatar cursor-pointer">
-              <div className="w-10 md:w-12 rounded-full ring-2 ring-[#296903]  ">
-                {user?.photoURL ? (
-                  <img
-                    className="w-full h-full object-cover"
-                    src={user?.photoURL}
-                    alt="Profile"
-                  />
-                ) : (
-                  <div className="bg-gray-200 w-full h-full flex items-center justify-center">
-                    <FaRegUserCircle className="text-2xl text-gray-500" />
-                  </div>
-                )}
-              </div>
+            <div className="w-10 md:w-12 rounded-full ring-2 ring-[#296903]">
+              {user?.photoURL ? (
+                <img
+                  className="w-full h-full object-cover"
+                  src={user?.photoURL}
+                  alt="Profile"
+                />
+              ) : (
+                <div className="bg-gray-200 w-full h-full flex items-center justify-center">
+                  <FaRegUserCircle className="text-2xl text-gray-500" />
+                </div>
+              )}
             </div>
           </div>
+
+          <Tooltip id="user-profile-tooltip" place="bottom" />
+
           <ThemeToggle />
         </div>
       </div>
