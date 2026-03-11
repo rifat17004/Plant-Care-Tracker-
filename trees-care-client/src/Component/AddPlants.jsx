@@ -13,13 +13,18 @@ const AddPlants = () => {
     const formData = new FormData(form);
     const plantObject = Object.fromEntries(formData.entries());
 
+    const finalPlantData = {
+      ...plantObject,
+      createdAt: new Date().toISOString(),
+    };
     fetch(`http://localhost:3000/all-plants`, {
       method: "POST",
-      body: JSON.stringify(plantObject),
+      body: JSON.stringify(finalPlantData),
       headers: { "content-type": "application/json" },
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (data.acknowledged)
           Swal.fire({
             title: "Added 🌿",
