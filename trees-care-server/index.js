@@ -10,9 +10,11 @@ app.get("/", (req, res) => {
   res.send("Plant care server running");
 });
 
-const user = process.env.DB_USER;
-const pass = process.env.DB_PASS;
-const uri = `mongodb+srv://${user}:${pass}@your-cluster-url-here/your-db-name?retryWrites=true&w=majority`;
+const username = process.env.DB_USER;
+const password = encodeURIComponent(process.env.DB_PASS);
+
+const uri = `mongodb+srv://${username}:${password}@cluster0.m6oxwzg.mongodb.net/?appName=Cluster0`;
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
