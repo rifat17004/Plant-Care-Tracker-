@@ -30,18 +30,15 @@ const Register = () => {
       photoURL: fromObject.Url,
     };
 
-    // 2. Create User in Firebase
     createUser(fromObject.email, fromObject.pass)
       .then(async (userCredential) => {
-        // Update profile details
         await updateProfile(auth.currentUser, userProfile);
 
-        // 3. Success Feedback
         Swal.fire({
           title: "Welcome to the Garden! 🌿",
           text: "Your account was created successfully.",
           icon: "success",
-          confirmButtonColor: "#22c55e", // Matches btn-success
+          confirmButtonColor: "#22c55e",
         });
 
         e.target.reset();

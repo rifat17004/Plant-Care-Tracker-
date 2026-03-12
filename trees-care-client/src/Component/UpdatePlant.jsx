@@ -17,11 +17,14 @@ const UpdatePlant = () => {
     const formData = new FormData(form);
     const plantObject = Object.fromEntries(formData.entries());
 
-    fetch(`http://localhost:3000/update/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(plantObject),
-      headers: { "content-type": "application/json" },
-    })
+    fetch(
+      `https://trees-care-server-dx3s1pfo9-rifat17004s-projects.vercel.app/update/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(plantObject),
+        headers: { "content-type": "application/json" },
+      },
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount > 0) {

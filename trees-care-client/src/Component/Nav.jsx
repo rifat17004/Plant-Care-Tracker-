@@ -4,6 +4,7 @@ import ThemeToggle from "./ThemeToggle";
 import { AuthContext } from "../AuthContext/AuthContext";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
+import Swal from "sweetalert2";
 
 const Nav = () => {
   const { user, logout } = use(AuthContext);
@@ -11,7 +12,14 @@ const Nav = () => {
 
   const handleSignOut = () => {
     logout()
-      .then(() => alert("User Logged out"))
+      .then(() => {
+        Swal.fire({
+          title: "Log OUT succesfully 🌿",
+
+          icon: "success",
+          confirmButtonColor: "#22c55e",
+        });
+      })
       .catch((err) => setError(err.message));
   };
 

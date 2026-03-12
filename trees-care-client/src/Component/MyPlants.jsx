@@ -12,7 +12,9 @@ const MyPlants = () => {
   const [myData, setMyData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/my-plants/${user.email}`)
+    fetch(
+      `https://trees-care-server-dx3s1pfo9-rifat17004s-projects.vercel.app/my-plants/${user.email}`,
+    )
       .then((res) => res.json())
       .then((data) => setMyData(data));
   }, [user]);
@@ -29,7 +31,10 @@ const MyPlants = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/all-plants/${id}`, { method: "DELETE" })
+        fetch(
+          `https://trees-care-server-dx3s1pfo9-rifat17004s-projects.vercel.app/all-plants/${id}`,
+          { method: "DELETE" },
+        )
           .then((res) => res.json())
           .then((data) => {
             if (deletedCount > 0) {

@@ -22,12 +22,12 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
-        loader: () => fetch("http://localhost:3000/all-plants"),
+        loader: () => fetch("https://trees-care-server.vercel.app/all-plants"),
       },
       {
         path: "all-plants",
         Component: AllPlants,
-        loader: () => fetch("http://localhost:3000/all-plants"),
+        loader: () => fetch("https://trees-care-server.vercel.app/all-plants"),
       },
       {
         path: "add-plants",
@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
       {
         path: "update-plants/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/all-plants/${params.id}`),
+          fetch(`https://trees-care-server.vercel.app/all-plants/${params.id}`),
         element: (
           <Suspense fallback={<Loading />}>
             <PrivateRoutes>
@@ -62,7 +62,8 @@ export const router = createBrowserRouter([
             </PrivateRoutes>
           </Suspense>
         ),
-        loader: () => fetch(`http://localhost:3000/my-plants/rifat@.com`),
+        loader: () =>
+          fetch(`https://trees-care-server.vercel.app/my-plants/rifat@.com`),
       },
       {
         path: "plant-details/:id",
@@ -75,7 +76,7 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/all-plants/${params.id}`),
+          fetch(`https://trees-care-server.vercel.app/all-plants/${params.id}`),
       },
       {
         path: "auth",

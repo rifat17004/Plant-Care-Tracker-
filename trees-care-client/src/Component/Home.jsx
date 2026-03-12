@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Banner from "./Banner";
 import { useLoaderData } from "react-router";
 import NewPlants from "./NewPlants";
@@ -7,6 +7,24 @@ import CareMistakes from "./CareMistakes";
 
 const Home = () => {
   const data = useLoaderData();
+  // const [plantss, setPlantss] = useState([]);
+  // const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   fetch(
+  //     "https://trees-care-server-dx3s1pfo9-rifat17004s-projects.vercel.app/all-plants",
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setPlantss(data);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Fetch error:", err);
+  //       setLoading(false);
+  //     });
+  // }, []);
+  // console.log(plantss);
   const [plants, setPlants] = useState(data);
 
   return (
