@@ -5,11 +5,13 @@ import { AuthContext } from "../AuthContext/AuthContext";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import Swal from "sweetalert2";
+import Loading from "./Loading";
 
 const Nav = () => {
-  const { user, logout } = use(AuthContext);
+  const { user, logout, loading } = use(AuthContext);
   const [error, setError] = useState("");
-
+  if (loading) return <Loading />;
+  const email = user?.email;
   const handleSignOut = () => {
     logout()
       .then(() => {
@@ -57,7 +59,7 @@ const Nav = () => {
       </li>
       <li>
         <NavLink
-          to="/my-plants"
+          to={`/my-plants/${email}`}
           className={({ isActive }) =>
             isActive ? "text-success font-bold" : ""
           }

@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "my-plants",
+        path: "my-plants/:email",
 
         element: (
           <Suspense fallback={<Loading />}>
@@ -62,8 +62,10 @@ export const router = createBrowserRouter([
             </PrivateRoutes>
           </Suspense>
         ),
-        loader: () =>
-          fetch(`https://trees-care-server.vercel.app/my-plants/rifat@.com`),
+        loader: ({ params }) =>
+          fetch(
+            `https://trees-care-server.vercel.app/my-plants/${params.email}`,
+          ),
       },
       {
         path: "plant-details/:id",

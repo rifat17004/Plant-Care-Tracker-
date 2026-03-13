@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
 import Swal from "sweetalert2";
 import Loading from "./Loading";
@@ -8,18 +8,10 @@ const MyPlants = () => {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) return <Loading />;
+  const data = useLoaderData();
 
-  const [myData, setMyData] = useState([]);
+  const [myData, setMyData] = useState(data);
 
-  useEffect(() => {
-    fetch(
-      `https://trees-care-server-dx3s1pfo9-rifat17004s-projects.vercel.app/my-plants/${user.email}`,
-    )
-      .then((res) => res.json())
-      .then((data) => setMyData(data));
-  }, [user]);
-
-  // // 3. Delete Handler
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -31,19 +23,25 @@ const MyPlants = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(
-          `https://trees-care-server-dx3s1pfo9-rifat17004s-projects.vercel.app/all-plants/${id}`,
-          { method: "DELETE" },
-        )
+        fetch(`https://trees-care-server.vercel.app/all-plants/${id}`, {
+          method: "DELETE",
+        })
           .then((res) => res.json())
-          .then((data) => {
-            if (deletedCount > 0) {
+          .then((resData) => {
+            if (resData.deletedCount > 0) {
               Swal.fire({
                 title: "Deleted!",
-                text: "Your file has been deleted.",
+                text: "Your plant has been removed.",
                 icon: "success",
               });
+
+              const remaining = myData.filter((plant) => plant._id !== id);
+              setMyData(remaining);
             }
+          })
+          .catch((err) => {
+            console.error("Delete Error:", err);
+            Swal.fire("Error", "Could not delete from server", "error");
           });
       }
     });

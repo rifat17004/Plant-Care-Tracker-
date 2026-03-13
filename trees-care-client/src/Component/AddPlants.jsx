@@ -17,14 +17,11 @@ const AddPlants = () => {
       ...plantObject,
       createdAt: new Date().toISOString(),
     };
-    fetch(
-      `https://trees-care-server-dx3s1pfo9-rifat17004s-projects.vercel.app/all-plants`,
-      {
-        method: "POST",
-        body: JSON.stringify(finalPlantData),
-        headers: { "content-type": "application/json" },
-      },
-    )
+    fetch(` https://trees-care-server.vercel.app/all-plants`, {
+      method: "POST",
+      body: JSON.stringify(finalPlantData),
+      headers: { "content-type": "application/json" },
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
